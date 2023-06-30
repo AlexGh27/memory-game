@@ -6,11 +6,16 @@
   grid-template-columns: 300px 300px 300px 300px 300px;
   grid-template-rows: 350px 350px;
   place-items: center;
-  margin-left: 5.5vw;
+  margin-left: 6vw;
   margin-top: 4vw;
 }
 
 .photo {
   width: 200px;
   height: 200px;
+}
+
+#header {
+  display: flex;
+  justify-content: space-around;
 }
