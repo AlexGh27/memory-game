@@ -1,13 +1,14 @@
+
 #container {
-  background-color: red;
-  height: 700px;
+  background-color: purple;
+  height: 650px;
   width: 1500px;
   display: grid;
   grid-template-columns: 300px 300px 300px 300px 300px;
-  grid-template-rows: 350px 350px;
+  grid-template-rows: 325px 325px;
   place-items: center;
   margin-left: 6vw;
-  margin-top: 4vw;
+  margin-top: 2vw;
 }
 
 .photo {

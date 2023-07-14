@@ -1,23 +1,52 @@
 import { useState } from 'react';
 import Photo from './Photo';
+import parisImage from '../photos/paris.jpg';
+import barcelonaImage from '../photos/barcelona.jpg';
+import bucharestImage from '../photos/bucharest.jpg';
+import osloImage from '../photos/oslo.jpg';
+import munchenImage from '../photos/munchen.jpg';
+import sydneyImage from '../photos/sydney.jpg';
+import warsawImage from '../photos/warsaw.jpg';
+import cairoImage from '../photos/cairo.jpg';
+import budapestImage from '../photos/budapest.jpg';
+import milanoImage from '../photos/milano.jpg';
+
 
 function App() {
 
- const [count, setCount] = useState(0)
+ const photos = [
+    { id: 1, name:'Paris', src: parisImage, clicked: false },
+    { id: 2, name:'Barcelona', src: barcelonaImage, clicked: false },
+    { id: 3, name:'Bucharest', src: bucharestImage, clicked: false },
+    { id: 4, name:'Oslo', src: osloImage, clicked: false },
+    { id: 5, name:'Munchen', src: munchenImage, clicked: false },
+    { id: 6, name:'Sydney', src: sydneyImage, clicked: false },
+    { id: 7, name:'Warsaw', src: warsawImage, clicked: false },
+    { id: 8, name:'Cairo', src: cairoImage, clicked: false },
+    { id: 9, name:'Budapest', src: budapestImage, clicked: false },
+    { id: 10, name:'Milano', src: milanoImage, clicked: false },
+ ];
+
  const [score, setScore] = useState(0)
 
- const increment = () => {
-  setCount(prevCount => prevCount + 1);
- }
-
  const incrementScore = () => {
-  setScore (prevScore => prevScore + 1);
+  setScore(prevScore => prevScore + 1)
  }
 
-
-
-
-
+ const handleClick = (id) => {
+  const updatedPhotos = photos.map((photo) => {
+    if (photo.id === id) {
+      if (photo.clicked) {
+        setScore(0);
+        return { ...photo, clicked: false };
+      } else {
+        incrementScore();
+        return { ...photo, clicked: true };
+      }
+    }
+    return photo;
+  });
+ } 
 
   return (
     <div className="App">
@@ -29,15 +58,14 @@ function App() {
         </div>
       </div>
 
-      <div id="container">
-        <Photo/>
-        <img src={require('../photos/paris.jpg')} alt="" className='photo'/>
-      </div>
-
-      <div>{count}</div>
-      <button onClick={increment}>Increment</button>
+      <Photo
+        photos = {photos}
+        handleClick = {handleClick}
+      />   
+        
     </div>
   );
+
 }
 
 export default App;
