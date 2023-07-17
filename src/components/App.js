@@ -14,7 +14,7 @@ import milanoImage from '../photos/milano.jpg';
 
 function App() {
 
- const photos = [
+ const [photos, setPhotos] = useState([
     { id: 1, name:'Paris', src: parisImage, clicked: false },
     { id: 2, name:'Barcelona', src: barcelonaImage, clicked: false },
     { id: 3, name:'Bucharest', src: bucharestImage, clicked: false },
@@ -25,13 +25,27 @@ function App() {
     { id: 8, name:'Cairo', src: cairoImage, clicked: false },
     { id: 9, name:'Budapest', src: budapestImage, clicked: false },
     { id: 10, name:'Milano', src: milanoImage, clicked: false },
- ];
+ ]);
 
  const [score, setScore] = useState(0)
 
  const incrementScore = () => {
   setScore(prevScore => prevScore + 1)
  }
+
+
+ const shuffleArray = (array) => {
+  
+
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let x = array[i];
+    array[i] = array[j];
+    array[j] = x;
+  }
+return array;
+
+}
 
  const handleClick = (id) => {
   const updatedPhotos = photos.map((photo) => {
@@ -46,7 +60,9 @@ function App() {
     }
     return photo;
   });
- } 
+
+  setPhotos(updatedPhotos); 
+};
 
   return (
     <div className="App">
@@ -61,6 +77,7 @@ function App() {
       <Photo
         photos = {photos}
         handleClick = {handleClick}
+        shuffleArray = {shuffleArray}
       />   
         
     </div>

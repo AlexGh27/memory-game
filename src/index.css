@@ -11,9 +11,28 @@
   margin-top: 2vw;
 }
 
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
 .photo {
   width: 200px;
   height: 200px;
+}
+
+.photo-name {
+  background-color: black;
+  color: white;
+  opacity: 50%;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.photo-name:hover,
+.photo:hover {
+  cursor: pointer;
 }
 
 #header {
