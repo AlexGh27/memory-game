@@ -10,6 +10,7 @@ import warsawImage from '../photos/warsaw.jpg';
 import cairoImage from '../photos/cairo.jpg';
 import budapestImage from '../photos/budapest.jpg';
 import milanoImage from '../photos/milano.jpg';
+import { useEffect } from 'react';
 
 
 function App() {
@@ -27,10 +28,11 @@ function App() {
     { id: 10, name:'Milano', src: milanoImage, clicked: false },
  ]);
 
- const [score, setScore] = useState(0)
+ const [currentScore, setCurrentScore] = useState(0)
+ const [bestScore, setBestScore] = useState(0)
 
  const incrementScore = () => {
-  setScore(prevScore => prevScore + 1)
+  setCurrentScore(prevScore => prevScore + 1)
  }
 
 
@@ -51,7 +53,7 @@ return array;
   const updatedPhotos = photos.map((photo) => {
     if (photo.id === id) {
       if (photo.clicked) {
-        setScore(0);
+        setCurrentScore(0);
         return { ...photo, clicked: false };
       } else {
         incrementScore();
@@ -64,13 +66,21 @@ return array;
   setPhotos(updatedPhotos); 
 };
 
+  useEffect(() => {
+    if (bestScore < currentScore) {
+      setBestScore(currentScore)
+    }
+  },[currentScore, bestScore]) 
+
+  
+
   return (
     <div className="App">
       <div id="header">
         <div id="title">MEMORY GAME</div>
         <div id="score">
-          <div id="currentScore">Current score: {score}</div>
-          <div id="bestScore">Best score: </div>
+          <div id="currentScore">Current score: {currentScore}</div>
+          <div id="bestScore">Best score: {bestScore}</div>
         </div>
       </div>
 
@@ -79,7 +89,7 @@ return array;
         handleClick = {handleClick}
         shuffleArray = {shuffleArray}
       />   
-        
+      <div id='description'>Don't click on the same image twice!</div>   
     </div>
   );
 
