@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Photo from './Photo';
 import parisImage from '../photos/paris.jpg';
 import barcelonaImage from '../photos/barcelona.jpg';
@@ -10,69 +10,57 @@ import warsawImage from '../photos/warsaw.jpg';
 import cairoImage from '../photos/cairo.jpg';
 import budapestImage from '../photos/budapest.jpg';
 import milanoImage from '../photos/milano.jpg';
-import { useEffect } from 'react';
-
 
 function App() {
+  const photos = [
+    { id: 1, name: 'Paris', src: parisImage},
+    { id: 2, name: 'Barcelona', src: barcelonaImage},
+    { id: 3, name: 'Bucharest', src: bucharestImage},
+    { id: 4, name: 'Oslo', src: osloImage},
+    { id: 5, name: 'Munchen', src: munchenImage},
+    { id: 6, name: 'Sydney', src: sydneyImage},
+    { id: 7, name: 'Warsaw', src: warsawImage},
+    { id: 8, name: 'Cairo', src: cairoImage},
+    { id: 9, name: 'Budapest', src: budapestImage},
+    { id: 10, name: 'Milano', src: milanoImage}
+  ];
 
- const [photos, setPhotos] = useState([
-    { id: 1, name:'Paris', src: parisImage, clicked: false },
-    { id: 2, name:'Barcelona', src: barcelonaImage, clicked: false },
-    { id: 3, name:'Bucharest', src: bucharestImage, clicked: false },
-    { id: 4, name:'Oslo', src: osloImage, clicked: false },
-    { id: 5, name:'Munchen', src: munchenImage, clicked: false },
-    { id: 6, name:'Sydney', src: sydneyImage, clicked: false },
-    { id: 7, name:'Warsaw', src: warsawImage, clicked: false },
-    { id: 8, name:'Cairo', src: cairoImage, clicked: false },
-    { id: 9, name:'Budapest', src: budapestImage, clicked: false },
-    { id: 10, name:'Milano', src: milanoImage, clicked: false },
- ]);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [clickedPhotos, setClickedPhotos] = useState([]);
 
- const [currentScore, setCurrentScore] = useState(0)
- const [bestScore, setBestScore] = useState(0)
+  const incrementScore = () => {
+    setCurrentScore((prevScore) => prevScore + 1);
+  };
 
- const incrementScore = () => {
-  setCurrentScore(prevScore => prevScore + 1)
- }
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
+  const handleClick = (id) => {
+    const clickedPhoto = photos.find((photo) => photo.id === id);
 
- const shuffleArray = (array) => {
-  
-
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    let x = array[i];
-    array[i] = array[j];
-    array[j] = x;
-  }
-return array;
-
-}
-
- const handleClick = (id) => {
-  const updatedPhotos = photos.map((photo) => {
-    if (photo.id === id) {
-      if (photo.clicked) {
+    if (clickedPhoto) {
+      if (clickedPhotos.includes(clickedPhoto.id)) {
         setCurrentScore(0);
-        return { ...photo, clicked: false };
+        setClickedPhotos([]);
       } else {
         incrementScore();
-        return { ...photo, clicked: true };
+        setClickedPhotos((prevClickedPhotos) => [...prevClickedPhotos, clickedPhoto.id]);
       }
     }
-    return photo;
-  });
-
-  setPhotos(updatedPhotos); 
-};
+  };
 
   useEffect(() => {
-    if (bestScore < currentScore) {
-      setBestScore(currentScore)
+    if (currentScore > bestScore) {
+      setBestScore(currentScore);
     }
-  },[currentScore, bestScore]) 
-
-  
+  }, [currentScore, bestScore]);
 
   return (
     <div className="App">
@@ -83,16 +71,10 @@ return array;
           <div id="bestScore">Best score: {bestScore}</div>
         </div>
       </div>
-
-      <Photo
-        photos = {photos}
-        handleClick = {handleClick}
-        shuffleArray = {shuffleArray}
-      />   
-      <div id='description'>Don't click on the same image twice!</div>   
+      <Photo photos={photos} handleClick={handleClick} shuffleArray={shuffleArray} />
+      <div id="description">Don't click on the same image twice!</div>
     </div>
   );
-
 }
 
 export default App;
